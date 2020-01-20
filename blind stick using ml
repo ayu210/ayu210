@@ -1,0 +1,83 @@
+
+
+g = raw_input("Enter your name : ") 
+
+
+
+
+
+
+if(ch=1)
+
+ import cv2  
+   
+ def detect(ch):
+    i=0
+    #ch=a
+    face_cascade = cv2.CascadeClassifier(r'C:\Users\ayush\Desktop\x.xml') 
+    up = cv2.CascadeClassifier(r'C:\Users\ayush\Desktop\up.xml') 
+    lb = cv2.CascadeClassifier(r'C:\Users\ayush\Desktop\lb.xml') 
+    
+    while True and ch == 1:
+        cap=cv2.VideoCapture(0)
+        ret,frame=cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        print(gray)
+        print(len(gray))
+        cv2.imwrite(r'C:\Users\ayush\Desktop\plo1.jpeg',gray)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        print(faces)
+        upo = up.detectMultiScale(gray, 1.05, 5)
+        print(upo)
+        lpo = lb.detectMultiScale(gray, 1.1, 5)
+        print(lpo)
+        cv2.imwrite(r'C:\Users\ayush\Desktop\plo.jpeg',gray)
+        
+        if (len(faces) != 0  or len(upo) != 0 or len(lpo) != 0):
+            print("Person detected")
+            break
+        
+             
+    return 0
+
+
+ detect(1)
+
+if(ch=2)
+ from keras.models import load_model
+
+ import cv2
+ classifier=load_model(r'C:\Users\ayush\Desktop\test.h5')
+ from keras.preprocessing import image
+ import numpy as np
+ 
+
+ i=0
+ cap=cv2.VideoCapture(0)
+ r"""
+ while(i<1):
+    ret,frame=cap.read()
+    i=i+1
+
+ cv2.imwrite(r'C:\Users\ayush\Desktop\r.jpg',frame)
+ cap.release()
+    r"""
+ imtest=image.load_img(r'C:\Users\ayush\Desktop\aaaa.jpg',target_size=(224,224),color_mode='rgb')
+ imtest=image.img_to_array(imtest)
+
+ imtest=imtest/255
+ a=np.expand_dims(imtest,axis=0)
+ result=classifier.predict(a)
+
+ result=(result*100)
+ print(result[0,0])
+ print(result[0,1])
+
+
+
+ if result[0,0]>90:
+    print("a animal")
+    import pygame as py
+    
+ elif result[0,1]>80:
+    print("a car")
