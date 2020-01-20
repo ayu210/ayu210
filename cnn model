@@ -1,0 +1,84 @@
+/*cnn model*/
+
+
+from keras.models import Sequential
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+from keras.layers import Flatten
+from keras.layers import Dense
+
+classifier=Sequential()
+
+classifier.add(Conv2D(32,3,3,input_shape=(128,128,1),activation='relu'))
+classifier.add(MaxPooling2D(pool_size=(2,2)))
+
+
+classifier.add(Conv2D(64,3,3,activation='relu'))
+
+classifier.add(MaxPooling2D(pool_size=(2,2)))
+
+
+classifier.add(Flatten())
+
+
+classifier.add(Dense(output_dim=64,activation='relu'))
+classifier.add(Dense(output_dim=16,activation='relu'))
+classifier.add(Dense(output_dim=2,activation='softmax'))
+
+
+
+classifier.compile(loss='categorical_crossentropy',
+
+		optimizer='adam',
+
+		metrics=['accuracy'])
+classifier.summary()
+
+
+
+
+from keras.preprocessing.image import ImageDataGenerator
+
+train_datas=ImageDataGenerator(
+    
+            shear_range=0.2,
+            zoom_range=0.2,
+            horizontal_flip=True,
+            rescale=1./255)
+test_datas=ImageDataGenerator(
+           rescale=1./255)
+        
+
+train_data=train_datas.flow_from_directory(
+   r"C:\Users\ayush\Desktop\kkkk",target_size=(128,128),color_mode='grayscale',batch_size=100,
+    class_mode='categorical')
+
+test_data=test_datas.flow_from_directory(
+   r"C:\Users\ayush\Desktop\test",target_size=(128,128),color_mode='grayscale',batch_size=100,
+    class_mode='categorical')
+
+
+
+classifier.fit_generator(
+        train_data,
+        steps_per_epoch=50,
+        epochs=5,
+        validation_data=test_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
