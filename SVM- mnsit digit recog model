@@ -1,0 +1,72 @@
+traindata_output=pd.read_csv(r"C:\Users\ayush\Desktop\digit-recognizer\train.csv", squeeze=True,sep=',',usecols=['label'])
+traindata=pd.read_csv(r"C:\Users\ayush\Desktop\digit-recognizer\train.csv", squeeze=True,sep=',')
+
+traindata_input=traindata.iloc[:,1:785]
+
+
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.metrics import confusion_matrix 
+
+
+testd=pd.read_csv(r"C:\Users\ayush\Desktop\digit-recognizer\test.csv", squeeze=True)
+
+testd.shape
+
+sample=testd.iloc[0,:]
+
+sample.shape
+
+clf.predict(a)
+
+traindata_input /= traindata_input.max()
+
+X_train, X_test, y_train, y_test = train_test_split(traindata_input, traindata_output, test_size=0.25,random_state=0)
+
+traindata_input=traindata_input.fillna(0)
+
+from sklearn import svm
+
+clf = svm.SVC(kernel='poly',C=0.01,gamma=10) """USING GRID SEARCH"""
+
+clf.fit(X_train,y_train)
+
+clf.predict(sample)
+
+pred=clf.predict(X_test)
+
+confusion_matrix(y_test,pred)clf= pickle.load(open(r"C:\Users\ayush\Desktop\log.sav", 'rb'))
+
+pickle.dump(clf, open(r'C:\Users\ayush\Desktop\loge.sav', 'wb'))
+
+
+finale=clf.predict(testd)
+
+seri=pd.Series(finale)
+
+import seaborn as sns
+
+import numpy as np
+
+a=np.arange(0,2801)
+
+finale
+
+finale = pd.DataFrame(finale)
+
+finale.index
+
+finale['index'] = finale.index +1 
+
+cols = ['prediction', 'index']
+
+finale.columns = cols
+
+finale['prdictions'] = finale.prediction
+
+finale = finale.drop(['prediction'], axis = 1)
+
+finale.to_csv("output.csv", index = False)
+
+change.to_csv("output.csv", index = False)
